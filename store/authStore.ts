@@ -13,7 +13,7 @@ const authStore = (set: any) => ({
     removeUser: ()=> set({ userProfile: null}),
 
     fetchAllUsers: async () => {
-        const response = await axios.get(`${BASE_URL}/api/users`)
+        const response = await axios.get(`https://tiktikclone-final.vercel.app/api/users`)
 
         set({allUsers: response.data})
     }
