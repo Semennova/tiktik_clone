@@ -1,7 +1,8 @@
 import axios from 'axios';
 import jwt_decode from 'jwt-decode'
 
-export const BASE_URL = 'http://localhost:3000'
+// export const BASE_URL = 'http://localhost:3000'
+export const BASE_URL = process.env.NEXT_PUPLIC_BASE_URL
 
 export const createOrGetUser = async (response: any, addUser: any) => {
 
