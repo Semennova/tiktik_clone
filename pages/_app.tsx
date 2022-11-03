@@ -21,7 +21,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
       // clientId={
       //   "709029088934-3v8hc1qh9ee5g1cv1265mgi2a9e7c8dg.apps.googleusercontent.com"
       // }
-      clientId={`${process.env.NEXT_PUPLIC_GOOGLE_API_TOKEN}`}
+      clientId={`${process.env.NEXT_PUBLIC_GOOGLE_API_TOKEN}`}
     >
       <div className='xl:w-[1200px] m-auto overflow-hidden h-[100vh]'>
         <Navbar />
