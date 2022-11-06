@@ -30,5 +30,13 @@ export default async function handler( req: NextApiRequest, res: NextApiResponse
    .commit()
 
    res.status(200).json(data)
+ } else if(req.method === 'DELETE'){
+  const { id } = req.query 
+  const query = postDetailQuery(id)
+
+  await client
+   .delete({
+    query
+  })
  }
 }
