@@ -15,6 +15,8 @@ function Navbar() {
 
   const [searchValue, setSearchValue] = React.useState("");
   const router = useRouter();
+  // console.log('router', router);
+  
   const handleSearch = (e: {preventDefault: ()=> void}) => {
     e.preventDefault();
     if (searchValue) {
@@ -23,7 +25,7 @@ function Navbar() {
   };
   return (
     <div className="w-full flex justify-between items-center border-b-2 border-grey-200 py-2 px-4">
-      <Link href="/">
+       <Link href="/">
         <div className="w-[100px] md:w-[130px]">
           <Image
             className="cursor-pointer"
@@ -56,13 +58,13 @@ function Navbar() {
       <div>
         {userProfile ? (
           <div className="flex gap-5 md:gap-10">
-            <Link href="/upload">
+           {router.pathname !== '/upload' && <Link href="/upload">
               <button className="border-2 px-2 md:px-4 text-md font-semibold flex items-center gap-2">
                 <IoMdAdd className="text-xl" />
                 {` `}
                 <span className="hidden md:block">Upload</span>
               </button>
-            </Link>
+            </Link>} 
             {userProfile.image && (
               <Link href="/">
                 <>

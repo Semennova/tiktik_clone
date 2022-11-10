@@ -34,9 +34,10 @@ export default async function handler( req: NextApiRequest, res: NextApiResponse
   const { id } = req.query 
   const query = postDetailQuery(id)
 
-  await client
+const data = await client
    .delete({
     query
   })
+  res.status(200).json(data)
  }
 }

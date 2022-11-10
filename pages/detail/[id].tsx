@@ -26,7 +26,7 @@ function Detail({ postDetails }: IProps) {
   const [isPostingComment, setIsPostingComment] = React.useState(false)
   const router = useRouter()
   const { userProfile }: any = useAuthStore()
-  const [deletedMessage, setDeletedMessage] = React.useState(false)
+  // const [deletedMessage, setDeletedMessage] = React.useState(false)
 
   const videoRef = React.useRef<HTMLVideoElement>(null)
 
@@ -39,6 +39,9 @@ function Detail({ postDetails }: IProps) {
       setPlaying(true)
     }
   }
+// console.log('postDetails', postDetails.postedBy._id);
+// console.log('userProfile', userProfile._id);
+
 
   React.useEffect(() => {
     if (post && videoRef?.current) {
@@ -73,14 +76,14 @@ function Detail({ postDetails }: IProps) {
     }
   }
 
-  const deleteVideo = async (e: any) => {
-    e.preventDefault()
-    setDeletedMessage(true)
-    await axios.delete(`${BASE_URL}/api/post/${postDetails._id}`)
-  }
+  // const deleteVideo = async (e: any) => {
+  //   e.preventDefault()
+  //   setDeletedMessage(true)
+  //   await axios.delete(`${BASE_URL}/api/post/${postDetails._id}`)
+  // }
 
   const closeVideoDetails = () => {
-    setDeletedMessage(false)
+    // setDeletedMessage(false)
     router.back()
   }
 
@@ -95,13 +98,13 @@ function Detail({ postDetails }: IProps) {
           </p>
         </div>
 
-        {userProfile && (
+        {/* {userProfile._id ===  postDetails.postedBy._id && (
           <div className='absolute top-16 left-2 lg:left-6 flex gap-6 z-50'>
-            <p className='cursor-pointer' onClick={e => deleteVideo(e)}>
+            <p className='cursor-pointer' onClick={deleteVideo}>
             {deletedMessage ? <div className='text-white'>Deleted undo?</div> : <MdDelete className='text-[#f87171] text-[35px]' />}  
             </p>
           </div>
-        )}
+        )} */}
 
         <div className='relative'>
           <div className='lg:h-[100vh] h-[60vh]'>
