@@ -29,6 +29,35 @@ export const allPostsQuery = () => {
   return query;
 };
 
+export const singleCommentQuery = (commentId: string | string[] ) => {
+   
+  const query = `*[_type == "comment" && _key == '${commentId}']{
+    _key,
+    comment,
+    postedBy->{
+      _id,
+      _ref
+      }`
+
+return query
+};
+
+
+export const commentsQuery = (commentId: string | string[]) => {
+  const query = `*[_type == "comment" && _key == '${commentId}']{
+    comments[]{
+      comment,
+      _key,
+      postedBy->{
+        _ref,
+      _id,
+    },
+    }
+  }`
+
+  return query
+}
+
 export const postDetailQuery = (postId: string | string[]) => {
   const query = `*[_type == "post" && _id == '${postId}']{
     _id,

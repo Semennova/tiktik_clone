@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { uuid } from 'uuidv4'
 import { client } from '../../../utils/client'
-import { postDetailQuery } from '../../../utils/queries'
+import { commentsQuery, postDetailQuery, singleCommentQuery } from '../../../utils/queries'
 
 
 export default async function handler( req: NextApiRequest, res: NextApiResponse) {
@@ -31,13 +31,30 @@ export default async function handler( req: NextApiRequest, res: NextApiResponse
 
    res.status(200).json(data)
  } else if(req.method === 'DELETE'){
-  const { id } = req.query 
+  const { id } = req.query
   const query = postDetailQuery(id)
+  const data = await client
+    .delete({
+      query
+    })
 
-const data = await client
-   .delete({
-    query
-  })
-  res.status(200).json(data)
+    console.log(client);
+    
+    res.status(200).json(data)
+  
+//   const {commentId} = req.body
+
+//   const { id }:any = req.query
+ 
+//   const query: any = singleCommentQuery(commentId)
+//  const data = client.patch(id).unset(query).commit()
+
+
+//   // const data = await client.delete({query})
+//   res.status(200).json(data)
+
+ 
+
+  
  }
 }

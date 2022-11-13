@@ -5,7 +5,6 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { HiVolumeUp, HiVolumeOff } from 'react-icons/hi'
 import { BsFillPlayFill, BsFillPauseFill } from 'react-icons/bs'
-import { AiOutlineCloseCircle } from 'react-icons/ai'
 import { MdDelete } from 'react-icons/md'
 import { GoVerified } from 'react-icons/go'
 import useAuthStore from '../store/authStore'
@@ -52,7 +51,6 @@ const VideoCard: NextPage<IProps> = ({ post }) => {
   const toggleConfirmationModal = () => {
     window.scrollTo(0, 0)
     setIsDeleted(!isDeleted)
-    console.log('clicked')
   }
 
   useEffect(() => {
@@ -91,61 +89,65 @@ const VideoCard: NextPage<IProps> = ({ post }) => {
         </div>
       </div>
 
-      <div>
-      {isDeleted && (
-        <InformModal
-          headerText={`According to our algorithms your video "${post.caption}" was not going to succeed anyway. Glad you made that decision.`}
-          handleClick={a => deleteVideo(a, post._id)}
-          handleToggle={toggleConfirmationModal}
-        />
-      )}
-        <div className='lg:ml-20 flex gap-4 relative'>
-          <div
-            className='rounded-3xl'
-            onMouseEnter={() => setIsHover(prev => !prev)}
-            onMouseLeave={() => setIsHover(prev => !prev)}
-          >
-            <Link href={`/detail/${post._id}`}>
-              <video
-                ref={videoRef}
-                src={post.video.asset.url}
-                loop
-                className='lg:w-[600px] h-[300px] md:h-[400px] lg:h-[530px] w-[200px] rounded-2xl cursor-pointer bg-gray-100'
-              ></video>
-            </Link>
-            {isHover && (
-              <div className='absolute bottom-6 cursor-pointer left-8 md:left-14 lg:left-0 flex gap-5 lg:justify-between w-[100px]md:w-[50px] p-3'>
-                {playing ? (
-                  <button onClick={onVideoPress}>
-                    <BsFillPauseFill className='text-black text-2xl lg:text:4xl' />
-                  </button>
-                ) : (
-                  <button onClick={onVideoPress}>
-                    <BsFillPlayFill className='text-black text-2xl lg:text:4xl' />
-                  </button>
-                )}
+      {/* <div className='relative border-red border-2 px-0 m-0'> */}
 
-                {isVideoMuted ? (
-                  <button>
-                    <HiVolumeOff onClick={() => setIsVideoMuted(false)} className='text-black text-2xl lg:text:4xl' />
-                  </button>
-                ) : (
-                  <button>
-                    <HiVolumeUp onClick={() => setIsVideoMuted(true)} className='text-black text-2xl lg:text:4xl' />
-                  </button>
-                )}
+      <div className='lg:ml-20 flex gap-4 relative'>
+        <div
+          className='rounded-3xl relative'
+          onMouseEnter={() => setIsHover(true)}
+          onMouseLeave={() => setIsHover(false)}
+        >
+          {isDeleted && (
+            <InformModal
+            headerText='Delete this post?'
+            bodyText={`According to our algorithms your video "${post.caption}" was not going to succeed anyway. We are glad you made that decision.`}
+            topButtonText='Ok'
+            bottomButtonText='Cancel'
+              handleClick={e => deleteVideo(e, post._id)}
+              handleToggle={toggleConfirmationModal}
+            />
+          )}
+          <Link href={`/detail/${post._id}`}>
+            <video
+              ref={videoRef}
+              src={post.video.asset.url}
+              loop
+              className='lg:w-[600px] h-[300px] md:h-[400px] lg:h-[530px] w-[200px] rounded-2xl cursor-pointer bg-gray-100'
+            ></video>
+          </Link>
+          {isHover && (
+            <div className='absolute bottom-6 cursor-pointer left-8 md:left-14 lg:left-0 flex gap-5 lg:justify-between w-[100px]md:w-[50px] p-3'>
+              {playing ? (
+                <button onClick={onVideoPress}>
+                  <BsFillPauseFill className='text-black text-2xl lg:text:4xl' />
+                </button>
+              ) : (
+                <button onClick={onVideoPress}>
+                  <BsFillPlayFill className='text-black text-2xl lg:text:4xl' />
+                </button>
+              )}
 
-                {userProfile._id === post.postedBy._id && (
-                  <button>
-                    <MdDelete onClick={toggleConfirmationModal} className='text-black text-2xl lg:text:4xl' />
-                  </button>
-                )}
-              </div>
-            )}
-          </div>
+              {isVideoMuted ? (
+                <button>
+                  <HiVolumeOff onClick={() => setIsVideoMuted(false)} className='text-black text-2xl lg:text:4xl' />
+                </button>
+              ) : (
+                <button>
+                  <HiVolumeUp onClick={() => setIsVideoMuted(true)} className='text-black text-2xl lg:text:4xl' />
+                </button>
+              )}
+
+              {userProfile._id === post.postedBy._id && (
+                <button>
+                  <MdDelete onClick={toggleConfirmationModal} className='text-black text-2xl lg:text:4xl' />
+                </button>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </div>
+    // </div>
   )
 }
 

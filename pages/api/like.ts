@@ -3,16 +3,10 @@ import { uuid } from 'uuidv4'
 import { client } from '../../utils/client'
 
 
-type Data = {
-  name: string
-}
-
 
 export default async function handler( req: NextApiRequest, res: NextApiResponse) {
  if(req.method === 'PUT'){
    const { userId, postId, like } = req.body
-
-   console.log(req);
 
    const data = like ? await client
    .patch(postId)

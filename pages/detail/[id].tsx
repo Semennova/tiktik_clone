@@ -3,7 +3,6 @@ import { useRouter } from 'next/router'
 import Image from 'next/image'
 import Link from 'next/link'
 import { GoVerified } from 'react-icons/go'
-import { MdDelete } from 'react-icons/md'
 import { MdOutlineCancel } from 'react-icons/md'
 import { BsFillPlayFill } from 'react-icons/bs'
 import { HiVolumeUp, HiVolumeOff } from 'react-icons/hi'
@@ -19,6 +18,8 @@ interface IProps {
 }
 
 function Detail({ postDetails }: IProps) {
+  console.log('postDetails', postDetails)
+
   const [post, setPost] = React.useState(postDetails)
   const [playing, setPlaying] = React.useState(false)
   const [isVideoMuted, setIsVideoMuted] = React.useState(false)
@@ -27,6 +28,8 @@ function Detail({ postDetails }: IProps) {
   const router = useRouter()
   const { userProfile }: any = useAuthStore()
   // const [deletedMessage, setDeletedMessage] = React.useState(false)
+
+  console.log('userProfile', userProfile)
 
   const videoRef = React.useRef<HTMLVideoElement>(null)
 
@@ -39,9 +42,8 @@ function Detail({ postDetails }: IProps) {
       setPlaying(true)
     }
   }
-// console.log('postDetails', postDetails.postedBy._id);
-// console.log('userProfile', userProfile._id);
-
+  // console.log('postDetails', postDetails.postedBy._id);
+  // console.log('userProfile', userProfile._id);
 
   React.useEffect(() => {
     if (post && videoRef?.current) {
@@ -59,6 +61,29 @@ function Detail({ postDetails }: IProps) {
 
       setPost({ ...post, likes: data.likes })
     }
+  }
+
+  const handleDeleteComment = async (e, commentId: string) => {
+    e.preventDefault()
+    if (postDetails.comments && postDetails.comments.length) {
+      for (const comment of postDetails.comments) {
+        if (comment._key === commentId) {
+          console.log(comment._key)
+
+          // await axios.delete(`${BASE_URL}/api/post/${post._id}`, {
+          //   data: {
+          //     commentId
+          //   }
+          // })
+        }
+      }
+    }
+
+    //      await axios.delete(`${BASE_URL}/api/post/${post._id}`, {
+    //   data: {
+    //     commentId,
+    // }
+    // })
   }
 
   const addComment = async (e: any) => {
@@ -128,17 +153,11 @@ function Detail({ postDetails }: IProps) {
         <div className='absolute bottom-5 lg:bottom-10 right-5 lg:right-10 cursor-pointer'>
           {isVideoMuted ? (
             <button>
-              <HiVolumeOff
-                onClick={() => setIsVideoMuted(false)}
-                className='text-white text-2xl lg:text:4xl'
-              />
+              <HiVolumeOff onClick={() => setIsVideoMuted(false)} className='text-white text-2xl lg:text:4xl' />
             </button>
           ) : (
             <button>
-              <HiVolumeUp
-                onClick={() => setIsVideoMuted(true)}
-                className='text-white text-2xl lg:text:4xl'
-              />
+              <HiVolumeUp onClick={() => setIsVideoMuted(true)} className='text-white text-2xl lg:text:4xl' />
             </button>
           )}
         </div>
@@ -190,6 +209,7 @@ function Detail({ postDetails }: IProps) {
             addComment={addComment}
             isPostingComment={isPostingComment}
             comments={post.comments}
+            handleDeleteComment={handleDeleteComment}
           />
         </div>
       </div>
@@ -197,11 +217,7 @@ function Detail({ postDetails }: IProps) {
   )
 }
 
-export const getServerSideProps = async ({
-  params: { id }
-}: {
-  params: { id: string }
-}) => {
+export const getServerSideProps = async ({ params: { id } }: { params: { id: string } }) => {
   const { data } = await axios.get(`${BASE_URL}/api/post/${id}`)
 
   return {
