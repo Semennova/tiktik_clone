@@ -17,8 +17,9 @@ interface IProps {
   postDetails: Video
 }
 
+
 function Detail({ postDetails }: IProps) {
-  console.log('postDetails', postDetails)
+  // console.log('postDetails', postDetails)
 
   const [post, setPost] = React.useState(postDetails)
   const [playing, setPlaying] = React.useState(false)
@@ -29,7 +30,7 @@ function Detail({ postDetails }: IProps) {
   const { userProfile }: any = useAuthStore()
   // const [deletedMessage, setDeletedMessage] = React.useState(false)
 
-  console.log('userProfile', userProfile)
+  // console.log('userProfile', userProfile)
 
   const videoRef = React.useRef<HTMLVideoElement>(null)
 
@@ -63,7 +64,7 @@ function Detail({ postDetails }: IProps) {
     }
   }
 
-  const handleDeleteComment = async (e, commentId: string) => {
+  const handleDeleteComment = async (e:React.MouseEvent<HTMLDivElement>, commentId: string) => {
     e.preventDefault()
     if (postDetails.comments && postDetails.comments.length) {
       for (const comment of postDetails.comments) {

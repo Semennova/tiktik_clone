@@ -8,10 +8,11 @@ import { BsFillPlayFill, BsFillPauseFill } from 'react-icons/bs'
 import { MdDelete } from 'react-icons/md'
 import { GoVerified } from 'react-icons/go'
 import useAuthStore from '../store/authStore'
-import axios from 'axios'
-import { BASE_URL } from '../utils'
+// import axios from 'axios'
+// import { BASE_URL } from '../utils'
 import InformModal from './InformModal'
 import { useRouter } from 'next/router'
+import useVideocardStore from '../store/videoCard'
 
 interface IProps {
   post: Video
@@ -24,11 +25,9 @@ const VideoCard: NextPage<IProps> = ({ post }) => {
   const [isDeleted, setIsDeleted] = useState(false)
   const videoRef = useRef<HTMLVideoElement>(null)
   const { userProfile }: any = useAuthStore()
-
-  // console.log('userProfile', userProfile);
+  const { deletevideo }: any = useVideocardStore()
 
   const router = useRouter()
-  // console.log('router', router)
   const onVideoPress = () => {
     if (playing) {
       videoRef?.current?.pause()
@@ -39,11 +38,11 @@ const VideoCard: NextPage<IProps> = ({ post }) => {
     }
   }
 
-  const deleteVideo = async (e: any, id: string) => {
+  const deleteVideo = async (e: React.MouseEvent<HTMLDivElement>, id: string) => {
     e.preventDefault()
     if (id === post._id) {
-      // setIsDeleted(false)
-      await axios.delete(`${BASE_URL}/api/post/${post._id}`)
+      // await axios.delete(`${BASE_URL}/api/post/${post._id}`)
+     await deletevideo(post._id)
       router.push('/')
     }
   }
@@ -89,8 +88,6 @@ const VideoCard: NextPage<IProps> = ({ post }) => {
         </div>
       </div>
 
-      {/* <div className='relative border-red border-2 px-0 m-0'> */}
-
       <div className='lg:ml-20 flex gap-4 relative'>
         <div
           className='rounded-3xl relative'
@@ -99,10 +96,10 @@ const VideoCard: NextPage<IProps> = ({ post }) => {
         >
           {isDeleted && (
             <InformModal
-            headerText='Delete this post?'
-            bodyText={`According to our algorithms your video "${post.caption}" was not going to succeed anyway. We are glad you made that decision.`}
-            topButtonText='Ok'
-            bottomButtonText='Cancel'
+              headerText='Delete this post?'
+              bodyText={`According to our algorithms your video "${post.caption}" was not going to succeed anyway. We are glad you made that decision.`}
+              topButtonText='Ok'
+              bottomButtonText='Cancel'
               handleClick={e => deleteVideo(e, post._id)}
               handleToggle={toggleConfirmationModal}
             />
@@ -147,7 +144,6 @@ const VideoCard: NextPage<IProps> = ({ post }) => {
         </div>
       </div>
     </div>
-    // </div>
   )
 }
 

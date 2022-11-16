@@ -13,7 +13,7 @@ interface Iprops {
   addComment: (e: React.FormEvent) => void;
   isPostingComment: Boolean;
   comments: IComment[];
-  handleDeleteComment: (e:any, id:string)=> void
+  handleDeleteComment: (e:React.MouseEvent<HTMLDivElement>, id:string)=> void
 }
 
 interface IComment {
@@ -32,8 +32,6 @@ function Comments({
   handleDeleteComment
 }: Iprops) {
   const { userProfile, allUsers }: any = useAuthStore();
-
-
  
   
   return (

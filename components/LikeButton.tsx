@@ -11,7 +11,8 @@ interface Iprops {
 function LikeButton({ handleDislike, handleLike, likes }: Iprops) {
   const [alreadyliked, setAlreadyLiked] = React.useState(false);
   const { userProfile }: any = useAuthStore();
-  const filterLikes = likes?.filter((like) => like._ref === userProfile?._id);
+  const filterLikes = likes?.filter((like) => like._ref === userProfile?._id)
+  
 
   React.useEffect(() => {
     if (filterLikes?.length > 0) {
